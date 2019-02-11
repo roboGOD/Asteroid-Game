@@ -179,25 +179,36 @@ class DOTP extends JFrame implements KeyListener {
  
 		if(m.getX() == a.getX() && m.getY() == a.getY()) { 
 			System.out.println("\nYou win!!\nThe Asteroid is destroyed.");
+			p1.setMissileColor(Color.GREEN);
+			p1.update(m, a, scale);
 			return;
 		}			
  
 		if(a.hit()) { // The asteroid hit the ground
 			System.out.println("\nThe Asteroid hit the ground.\nYou lose!!\n");
+			p1.setMissileColor(Color.MAGENTA);
+			p1.setAsteroidColor(Color.MAGENTA);
+			p1.update(m, a, scale);
 			return;
 		}
- 
-            	if(m.hitGround()) { // The missile hit the ground.
-                	System.out.println("\nThe Missile hit the ground.\nYou lose!!\n");
-                	return;
-            	}
- 
-            	if(m.outOfRange()) { // The missile goes out of range.
-                	System.out.println("\nThe Missile went out of range.\nThe asteroid hit the ground.\nYou lose!!\n");
-                	return;
-            	}
- 
-            	// Print the updated co-ordinates of Missile and Asteroid.
+
+    	if(m.hitGround()) { // The missile hit the ground.
+        	System.out.println("\nThe Missile hit the ground.\nYou lose!!\n");
+        	p1.setMissileColor(Color.MAGENTA);
+			p1.setAsteroidColor(Color.MAGENTA);
+			p1.update(m, a, scale);
+			return;
+    	}
+
+    	if(m.outOfRange()) { // The missile goes out of range.
+        	System.out.println("\nThe Missile went out of range.\nThe asteroid hit the ground.\nYou lose!!\n");
+        	p1.setMissileColor(Color.MAGENTA);
+			p1.setAsteroidColor(Color.MAGENTA);
+			p1.update(m, a, scale);
+			return;
+    	}
+
+    	// Print the updated co-ordinates of Missile and Asteroid.
 		p1.update(m, a, scale);
 		System.out.println("\nAsteroid: "+a.getX()+" "+a.getY());
 		System.out.println("Missile: "+m.getX()+" "+m.getY()+"\n");
@@ -223,6 +234,8 @@ class DrawPanel extends JPanel {
 	Missile m;
 	Asteroid a;
 	int scale;
+	Color aColor = Color.RED;
+	Color mColor = Color.CYAN;
  
 	DrawPanel(Missile m, Asteroid a, int scale) {
         super();
@@ -230,16 +243,24 @@ class DrawPanel extends JPanel {
         this.a = a;
         this.scale = scale;
 	}
+
+	void setMissileColor(Color color) {
+		this.mColor = color;
+	}
+
+	void setAsteroidColor(Color color) {
+		this.aColor = color;
+	}
  
 	@Override
 	protected void paintComponent(Graphics g) {
  
 		super.paintComponent(g);
  
-		g.setColor(Color.RED);
+		g.setColor(aColor);
 		g.fillRect((a.getX())*scale, a.getY()*scale, scale, scale);
  
-		g.setColor(Color.BLUE);
+		g.setColor(mColor);
 		g.fillRect((m.getX())*scale, m.getY()*scale, scale, scale);
 
         System.out.println(a.getX()*scale+" "+a.getY()*scale);
