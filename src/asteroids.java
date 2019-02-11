@@ -126,7 +126,7 @@ class Asteroid {
  
     // Checks whether the asteroid hit the ground
 	boolean hit() {
-		return y > 10;
+		return y >= 10;
 	}
 }
  
@@ -134,8 +134,8 @@ class Asteroid {
 class DOTP extends JFrame implements KeyListener {
  
 	static int scale = 20;
-	static int width = 22;
-	static int height = 12;
+	static int width = 21;
+	static int height = 11;
 	static Missile m;
 	static Asteroid a;
 	static DrawPanel p1;
